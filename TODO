@@ -1,0 +1,24 @@
+* General frame info output
+* L3 + L4
+* Options
+
+========================
+PACKET #X
+TYPE: IPv4
+PORT: 80
+LENGTH: 1518 Bytes
+========================
+
+Ethernet:
+  L2 DA:     00:00:11:11:11:ff
+  L2 SA:     00:00:00:00:00:aa
+  CVLAN: 
+  Ethertype: 0x9000
+  
+IPv4
+  Version:    0
+  Header Len: 0x10
+  Source IP:  128.0.0.1
+  Dest   IP:  10.64.8.22
+
+================

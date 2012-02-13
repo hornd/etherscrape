@@ -1,0 +1,46 @@
+#include <stdlib.h>
+#include "pack_list.h"
+
+extern struct pack_cap*
+construct_node(const struct pcap_pkthdr *header, 
+	       const uint8_t *packet,
+	       struct pack_cap* next)
+{
+    struct pack_cap *cur = malloc(sizeof(struct pack_cap));
+    if (!cur) 
+        return NULL;
+
+    cur->header = header;
+    cur->packet = packet;
+    cur->next = NULL;
+    
+    insert_node(cur);
+
+    return cur;         
+}
+
+static void
+insert_node(struct pack_cap * cur)
+{
+    if (packets_captured.head == NULL)
+    {
+        packets_captured.head = cur;
+    }
+    else
+    {
+        struct pack_cap *leaf = find_leaf();
+        leaf->next = cur;
+    }
+    packets_captured.len++;
+}
+
+static struct pack_cap *
+find_leaf()
+{
+    struct pack_cap *hd = captured.head;
+    while(hd->next != NULL) 
+    {
+        hd = hd->next;
+    }
+    return hd;
+}

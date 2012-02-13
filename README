@@ -1,0 +1,17 @@
+Spun tcpdump replacement.
+
+====================================
+          Requirements
+====================================
+
+A) libpcap must be installed. 
+    
+     sudo yum install libpcap
+
+B) If building from source, you may also need to install libpcap-devel
+ 
+     sudo yum install libpcap-devel
+
+====================================
+           Blah
+====================================
