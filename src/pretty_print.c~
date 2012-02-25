@@ -1,9 +1,0 @@
-#include <stdio.h>
-#include "pack_list.h"
-#include "pretty_print.h"
-
-extern void
-printout(struct pack_Cap *pack)
-{
-    
-}
