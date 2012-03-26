@@ -1,6 +1,6 @@
 * General frame info output
   * Why frame lengths seem off?
-  * Handle VLAN tags
+  * Handle VLAN tags? Will they be stripped before we capture? (think so)
   * Ethertype lookup
 * L3 + L4
 * Options
