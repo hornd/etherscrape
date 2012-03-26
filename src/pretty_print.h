@@ -5,6 +5,9 @@
 #include "layer2.h"
 
 extern void
+display_grid();
+
+extern void
 print_out(struct pack_cap *);
 
 #endif

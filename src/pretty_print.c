@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <net/ethernet.h>
 #include "pack_list.h"
 #include "pretty_print.h"
 
@@ -9,6 +8,16 @@
 
 static char* 
 get_asterisks();
+
+extern void 
+display_grid()
+{
+    struct pack_cap *hd;
+    FOREACH_PL(hd)
+    {
+        print_out(hd);
+    }
+}
 
 extern void
 print_out(struct pack_cap *pack)

@@ -43,14 +43,7 @@ handle_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pack
 static void
 dump_packets()
 {
-    struct pack_cap *hd;
-    
-    FOREACH_PL(hd)
-    {
-          print_out(hd);
-          printf("\n[Enter] to continue...\n");
-          getchar();
-    } 
+    display_grid();
 }
 
 void usage()
