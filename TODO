@@ -1,4 +1,7 @@
 * General frame info output
+  * Why frame lengths seem off?
+  * Handle VLAN tags
+  * Ethertype lookup
 * L3 + L4
 * Options
 
