@@ -11,10 +11,10 @@
 struct pack_cap
 {
     const struct pcap_pkthdr *header;
-    const uint8_t *packet;
     struct pack_cap* next;
     uint32_t packet_len;
     uint32_t packet_id;
+    const uint8_t *packet;
 };
 
 struct captured
@@ -22,6 +22,7 @@ struct captured
     struct pack_cap *head;
     uint32_t len;
 } packets_captured;
+
 
 extern struct pack_cap *
 construct_node(const struct pcap_pkthdr *, 
