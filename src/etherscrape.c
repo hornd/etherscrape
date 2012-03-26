@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <net/ethernet.h>
 #include <arpa/inet.h>
 #include "pack_list.h"
 #include "layer2.h"
@@ -31,24 +32,25 @@ static void
 handle_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)
 {
     struct pack_cap *cur_packet = construct_node(header, packet);
+
     if (!cur_packet)
     {
         printf("Out of memory\n");
         exit(EXIT_FAILURE);
-    }
+    }    
 }
 
 static void
 dump_packets()
 {
     struct pack_cap *hd;
+    
     FOREACH_PL(hd)
     {
-        //    debug_print_l2(hd);
-        print_out(hd);
-        printf("\n[Enter] to continue...\n");
-        getchar();
-    }
+          print_out(hd);
+          printf("\n[Enter] to continue...\n");
+          getchar();
+    } 
 }
 
 void usage()
@@ -66,8 +68,8 @@ void init(int argc, char* argv[])
 		if (strcmp("-c", argv[i]) == 0)
 		{
 			int atemp;
-//			if(argv[i+1] == NULL || ((config.packets = atoi(argv[i+1])) == 0))
-//				usage();
+/*			if(argv[i+1] == NULL || ((config.packets = atoi(argv[i+1])) == 0))
+            usage(); */
 			if(argv[i+1] == NULL) usage();
 			atemp = atoi(argv[i+1]);
 			printf("%s :  %d\n", argv[i+1], atemp);
@@ -115,11 +117,12 @@ int main(int argc, char* argv[])
 	}
 
     printf("Capturing packets......\n");
+
 	pcap_loop(handle, config.packets, handle_packet, NULL);
 
-	pcap_close(handle);
-  
     dump_packets();
+
+	pcap_close(handle);
 
 	return 0;
 }

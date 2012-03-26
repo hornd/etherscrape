@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <net/ethernet.h>
 #include "pack_list.h"
 #include "pretty_print.h"
 
-//debug
+/*debug*/
 #include "layer2.h"
 
 static char* 
@@ -16,7 +17,7 @@ print_out(struct pack_cap *pack)
     printf("Packet Length: %u\n", pack->packet_len);
     printf("%s\n", get_asterisks());
 
-    debug_print_l2(pack);
+    debug_print_l2(pack); 
 }
 
 

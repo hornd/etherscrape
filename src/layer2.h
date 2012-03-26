@@ -22,4 +22,7 @@ debug_print_l2(struct pack_cap *);
 extern void
 print_layer2(const uint8_t *);
 
+/*extern void
+  print_layer2(struct pack_cap *pack);*/
+
 #endif
