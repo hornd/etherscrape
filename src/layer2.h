@@ -17,10 +17,13 @@ typedef struct
 } layer2_header;
 
 extern void
-debug_print_l2(struct pack_cap *);
+print_l2(const uint8_t *);
 
 extern void
-print_layer2(const uint8_t *);
+get_hardware_da(struct pack_cap const *, char *);
+
+extern void
+get_hardware_sa(struct pack_cap const *, char *);
 
 /*extern void
   print_layer2(struct pack_cap *pack);*/

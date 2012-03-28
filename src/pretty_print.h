@@ -10,4 +10,7 @@ display_grid();
 extern void
 print_out(struct pack_cap *);
 
+extern void
+debug_dump(struct pack_cap *);
+
 #endif

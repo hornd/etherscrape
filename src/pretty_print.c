@@ -3,12 +3,11 @@
 #include <string.h>
 #include "pack_list.h"
 #include "pretty_print.h"
+#include "util.h"
 
 /*debug*/
 #include "layer2.h"
-
-static void
-print_asterisks();
+#include "layer3.h"
 
 static void
 print_header();
@@ -25,8 +24,80 @@ display_grid()
 
     FOREACH_PL(hd)
     {
+        debug_dump(hd);
         print_out(hd);
     }
+}
+
+static void
+d_debu(struct pack_cap *p)
+{
+
+    uint8_t i;
+    uint8_t *ptr = (uint8_t *)(p->packet);
+
+    printf("\n\nPartial Packet Data: \n");
+    for(i=1; i<=52; i++)
+    {
+        printf("%02x ", *ptr++);
+        if (!(i%4)) printf("\n");
+    } 
+}
+
+extern void
+debug_dump(struct pack_cap *p)
+{
+    uint8_t *ptr = (uint8_t *)(p->packet);
+    uint8_t i;
+
+    uint8_t vers_len;
+    uint8_t code_cong;
+
+
+    printf("Packet Dump (debug): \n");
+
+    printf("**** Layer 2 ****\n");
+    printf("SA: ");
+    for(i=1; i<=6; i++)
+    {
+        printf("%02x ", *ptr++);
+    }
+    printf("\n");
+    
+    printf("DA: ");
+    for(; i<=12; i++)
+    {
+        printf("%02x ", *ptr++);
+    }
+    printf("\n");
+
+    printf("Type: ");
+    for(; i<=14; i++)
+    {
+        printf("%02x ", *ptr++);
+    }
+    printf("\n");
+
+    vers_len = *ptr++;
+    code_cong = *ptr++;
+    
+    printf("Version: ");
+    printf("%1x\n", vers_len >> 4);
+
+    printf("\n**** Layer 3 ****\n");
+    printf("Length: ");
+    printf("%1x\n", vers_len & 0xF);
+
+    printf("DSCP: ");
+    printf("%02x\n", GET_BITS(code_cong, DSCPSTART_BIT, DSCPEND_BIT));
+
+    printf("ECN: ");
+    printf("%1x\n", GET_BITS(code_cong, ECNSTART_BIT, ECNEND_BIT));
+
+    d_debu(p);
+
+    printf("\n Exit \n");
+    exit(0);
 }
 
 extern void
@@ -42,12 +113,17 @@ print_out(struct pack_cap *pack)
 
     printf("%-5d | %-8s |", pack->packet_id, "2ms"); 
 
-    /* Debug only... needs to be IP */
+    /* Debug only... needs to be IP  */
+
+    get_hardware_da(pack, buffer);
+
+    /*
     for(i=0; i<HARDWARE_ADDRESS_LEN; i++)
     {
         loc_ptr += sprintf(buffer+loc_ptr, "%s%02x", i==0?" ":":", *ptr++);
     }
-    buffer[loc_ptr] = '\0';
+    buffer[loc_ptr] = '\0'; 
+    */
 
     printf("%-18s  |", buffer);
 
@@ -94,8 +170,3 @@ get_string_format()
     return ID_FORMAT " | " TIME_FORMAT " | " SOURCE_FORMAT " | " DEST_FORMAT " | " TYPE_FORMAT " | " LENGTH_FORMAT " |\n";
 }
 
-static void
-print_asterisks()
-{
-    printf("******************************\n");
-}
