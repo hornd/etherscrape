@@ -20,9 +20,11 @@ display_grid()
 {
     struct pack_cap *hd;
     
+    printf("Captured %d packets\n", packets_captured.len);
+
     print_header(); 
 
-    FOREACH_PL(hd)
+    FOREACH_PL_END(hd)
     {
         print_out(hd);
 /*      dump_packet_data(hd); */

@@ -5,8 +5,12 @@
 #include <time.h>
 #include "pcap.h"
 
-#define FOREACH_PL(nd)  for((nd) = packets_captured.head;   \
-                            (nd)->next != NULL;             \
+#define FOREACH_PL(nd)  for((nd) = packets_captured.head;      \
+                            (nd)->next != NULL;                \
+                            (nd) = (nd)->next)
+
+#define FOREACH_PL_END(nd) for((nd) = packets_captured.head;   \
+                            (nd) != NULL;                      \
                             (nd) = (nd)->next)
 
 struct pack_cap
