@@ -1,5 +1,7 @@
 #include <stdlib.h>
+#include <time.h>
 #include "pack_list.h"
+#include "util.h"
 
 static void insert_node(struct pack_cap *);
 static struct pack_cap * find_leaf();
@@ -9,7 +11,6 @@ construct_node(const struct pcap_pkthdr *header,
 	       const uint8_t *packet)
 {
     static uint32_t cur_id = 0;
-
     struct pack_cap *cur = malloc(sizeof(struct pack_cap));
     if (!cur) 
         return NULL;

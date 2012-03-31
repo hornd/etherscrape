@@ -85,6 +85,7 @@ int main(int argc, char* argv[])
 	char *device; /* Device name to capture on. */
 	char errbuf[PCAP_ERRBUF_SIZE]; /* Error buffer */
 	pcap_t *handle; /* Packet capture handle */
+    int loop_return;
 
 	init(argc, argv);
 	
@@ -111,7 +112,12 @@ int main(int argc, char* argv[])
 
     printf("Capturing packets......\n");
 
-	pcap_loop(handle, config.packets, handle_packet, NULL);
+	loop_return = pcap_loop(handle, config.packets, handle_packet, NULL);
+  
+    if (loop_return < 0)
+    {
+        printf("An error occurred when capturing.\n");
+    }
 
     dump_packets();
 

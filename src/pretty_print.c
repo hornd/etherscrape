@@ -24,15 +24,14 @@ display_grid()
 
     FOREACH_PL(hd)
     {
-        debug_dump(hd);
         print_out(hd);
+/*      dump_packet_data(hd); */
     }
 }
 
 static void
-d_debu(struct pack_cap *p)
+dump_packet_data(struct pack_cap *p)
 {
-
     uint8_t i;
     uint8_t *ptr = (uint8_t *)(p->packet);
 
@@ -94,10 +93,7 @@ debug_dump(struct pack_cap *p)
     printf("ECN: ");
     printf("%1x\n", GET_BITS(code_cong, ECNSTART_BIT, ECNEND_BIT));
 
-    d_debu(p);
-
-    printf("\n Exit \n");
-    exit(0);
+    dump_packet_data(p);
 }
 
 extern void
@@ -105,7 +101,7 @@ print_out(struct pack_cap *pack)
 {
 
     layer2_header *eth_header;
-    uint8_t *ptr, i, loc_ptr = 0;
+    uint8_t *ptr, loc_ptr = 0;
     char buffer[100];
 
     eth_header = (layer2_header *)(pack->packet);
@@ -115,35 +111,22 @@ print_out(struct pack_cap *pack)
 
     /* Debug only... needs to be IP  */
 
-    get_hardware_da(pack, buffer);
-
-    /*
-    for(i=0; i<HARDWARE_ADDRESS_LEN; i++)
-    {
-        loc_ptr += sprintf(buffer+loc_ptr, "%s%02x", i==0?" ":":", *ptr++);
-    }
-    buffer[loc_ptr] = '\0'; 
-    */
+    l2_get_da(pack, buffer);
 
     printf("%-18s  |", buffer);
 
     memset(buffer, 0, loc_ptr);
-    loc_ptr = 0;
-    ptr = eth_header->dest_addr;
 
-    for(i=0; i<HARDWARE_ADDRESS_LEN; i++)
-    {
-        loc_ptr += sprintf(buffer+loc_ptr, "%s%02x", i==0?" ":":", *ptr++);
-    }
+    l2_get_sa(pack, buffer);
 
     printf("%-18s  | ", buffer);
-    printf("%-8s | ", "0x0800");
+    printf("0x%-6x | ", l2_get_ethertype(pack));
     printf("%-5d ", pack->packet_len);
 
     printf("\n");
 }
 
-#define LINE_LENGTH 72
+#define LINE_LENGTH 80
 
 static void
 print_header()
@@ -167,6 +150,6 @@ print_header()
 static char*
 get_string_format()
 {
-    return ID_FORMAT " | " TIME_FORMAT " | " SOURCE_FORMAT " | " DEST_FORMAT " | " TYPE_FORMAT " | " LENGTH_FORMAT " |\n";
+    return ID_FORMAT " | " TIME_FORMAT " | " SOURCE_FORMAT " | " DEST_FORMAT " | " TYPE_FORMAT " | " LENGTH_FORMAT "\n";
 }
 

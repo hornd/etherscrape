@@ -7,25 +7,38 @@
 #include "pack_list.h"
 #include "util.h"
 
+typedef uint16_t ethertype;
+
 typedef struct
 {
 	uint8_t dest_addr[HARDWARE_ADDRESS_LEN];
 	uint8_t source_addr[HARDWARE_ADDRESS_LEN];
-	uint16_t ether_type; 
+	ethertype ether_type; 
     uint32_t fcs;
     char *encapsulated;
 } layer2_header;
 
-extern void
-print_l2(const uint8_t *);
+typedef enum
+{
+    DEST_ADDR,
+    SOURCE_ADDR,
+    ETHERTYPE,
+    PAYLOAD,
+    FCS
+} l2_components;
 
+/* Parse out the L2 destination address and store it in string
+   representation in the second argument. */
 extern void
-get_hardware_da(struct pack_cap const *, char *);
+l2_get_da(struct pack_cap const *, char *);
 
+/* Parse out the L2 source address and store it in string
+   representation in the second argument. */
 extern void
-get_hardware_sa(struct pack_cap const *, char *);
+l2_get_sa(struct pack_cap const *, char *);
 
-/*extern void
-  print_layer2(struct pack_cap *pack);*/
+/* Parse out and return the frame ethertype. */
+extern ethertype
+l2_get_ethertype(struct pack_cap const *);
 
 #endif

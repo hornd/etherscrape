@@ -1,22 +1,8 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <netinet/in.h>
 #include "layer2.h"
-
-/*debug
-#include <net/ethernet.h>
-#include "pack_list.h" 
-
-static void testfunc(struct pack_cap *pack)
-{
-    struct ether_header *eptr;
-    eptr = (struct ehter_header *)(pack->packet);
-
-
-    printf("DA 1: ");
-    printf("%s\n", ether_ntoa((const struct ether_addr *)&eptr->ether_dhost));
-
-    }*/
-
 
 extern void
 print_l2(const uint8_t *packet)
@@ -48,13 +34,7 @@ print_l2(const uint8_t *packet)
 }
 
 extern void
-parse_l2(struct pack_cap const *pack_cap)
-{
-    
-}
-
-extern void
-get_hardware_da(struct pack_cap const *pack_cap, char *buf)
+l2_get_sa(struct pack_cap const *pack_cap, char *buf)
 {
     uint8_t i, loc_ptr = 0;
     uint8_t *ptr = ((layer2_header *)(pack_cap->packet))->source_addr;
@@ -67,6 +47,21 @@ get_hardware_da(struct pack_cap const *pack_cap, char *buf)
 }
 
 extern void
-get_hardware_sa(struct pack_cap const *pack_cap, char *buf)
+l2_get_da(struct pack_cap const *pack_cap, char *buf)
 {
+    uint8_t i, loc_ptr = 0;
+    uint8_t *ptr = ((layer2_header *)(pack_cap->packet))->dest_addr;
+
+    for(i=0; i<HARDWARE_ADDRESS_LEN; i++)
+    {
+        loc_ptr += sprintf(buf+loc_ptr, "%s%02x", i==0 ? " " : ":", *ptr++);
+    }
+
+    buf[loc_ptr] = '\0';
+}
+
+extern ethertype
+l2_get_ethertype(struct pack_cap const *pack_cap)
+{
+    return ntohs(((layer2_header *)(pack_cap->packet))->ether_type);
 }
