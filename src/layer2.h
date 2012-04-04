@@ -12,11 +12,11 @@ typedef uint16_t ethertype;
 
 typedef struct
 {
-	uint8_t dest_addr[HARDWARE_ADDRESS_LEN];
-	uint8_t source_addr[HARDWARE_ADDRESS_LEN];
-	ethertype ether_type; 
-    uint32_t fcs;
-    char *encapsulated;
+	uint8_t   eth_dest_addr[HARDWARE_ADDRESS_LEN];
+	uint8_t   eth_source_addr[HARDWARE_ADDRESS_LEN];
+	ethertype ether_type;
+    uint8_t  *payload;  
+    uint32_t  eth_fcs;
 } layer2_header;
 
 typedef enum

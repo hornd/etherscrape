@@ -89,11 +89,6 @@ debug_dump(struct pack_cap *p)
     printf("Length: ");
     printf("%1x\n", vers_len & 0xF);
 
-    printf("DSCP: ");
-    printf("%02x\n", GET_BITS(code_cong, DSCPSTART_BIT, DSCPEND_BIT));
-
-    printf("ECN: ");
-    printf("%1x\n", GET_BITS(code_cong, ECNSTART_BIT, ECNEND_BIT));
 
     dump_packet_data(p);
 }
@@ -103,21 +98,19 @@ print_out(struct pack_cap *pack)
 {
 
     layer2_header *eth_header;
-    uint8_t *ptr, loc_ptr = 0;
+/*    uint8_t loc_ptr = 0; */
     char buffer[100];
 
     eth_header = (layer2_header *)(pack->packet);
-    ptr = eth_header->source_addr;
 
     printf("%-5d | %-8s |", pack->packet_id, "2ms"); 
 
     /* Debug only... needs to be IP  */
 
     l2_get_da(pack, buffer);
-
     printf("%-18s  |", buffer);
 
-    memset(buffer, 0, loc_ptr);
+/*    memset(buffer, 0, loc_ptr); */
 
     l2_get_sa(pack, buffer);
 

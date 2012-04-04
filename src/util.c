@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <netinet/in.h>
 #include "util.h"
 #include "ethertype.h"
 

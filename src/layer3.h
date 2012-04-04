@@ -6,6 +6,8 @@
 #include "util.h"
 #include "pack_list.h"
 
+#define L3_OFFSET 14
+
 typedef enum 
 {
     IPv4,

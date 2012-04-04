@@ -82,12 +82,12 @@ void init(int argc, char* argv[])
 
 int main(int argc, char* argv[])
 {
-	char *device; /* Device name to capture on. */
-	char errbuf[PCAP_ERRBUF_SIZE]; /* Error buffer */
-	pcap_t *handle; /* Packet capture handle */
+    char *device; /* Device name to capture on. */
+    char errbuf[PCAP_ERRBUF_SIZE]; /* Error buffer */
+    pcap_t *handle; /* Packet capture handle */
     int loop_return;
 
-	init(argc, argv);
+    init(argc, argv);
 	
 	device = pcap_lookupdev(errbuf);
 	if (device == NULL)

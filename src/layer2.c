@@ -16,7 +16,7 @@ print_l2(const uint8_t *packet)
     printf("%d\n",*packet); 
 	eth_header = (layer2_header *)packet;
 
-	ptr = eth_header->dest_addr;
+	ptr = eth_header->eth_dest_addr;
 
 	printf("Destination Address: ");
 	for(i = 0; i<HARDWARE_ADDRESS_LEN; i++)
@@ -37,7 +37,7 @@ extern void
 l2_get_sa(struct pack_cap const *pack_cap, char *buf)
 {
     uint8_t i, loc_ptr = 0;
-    uint8_t *ptr = ((layer2_header *)(pack_cap->packet))->source_addr;
+    uint8_t *ptr = ((layer2_header *)(pack_cap->packet))->eth_source_addr;
     
     for(i=0; i<HARDWARE_ADDRESS_LEN; i++)
     {
@@ -50,7 +50,7 @@ extern void
 l2_get_da(struct pack_cap const *pack_cap, char *buf)
 {
     uint8_t i, loc_ptr = 0;
-    uint8_t *ptr = ((layer2_header *)(pack_cap->packet))->dest_addr;
+    uint8_t *ptr = ((layer2_header *)(pack_cap->packet))->eth_dest_addr;
 
     for(i=0; i<HARDWARE_ADDRESS_LEN; i++)
     {
