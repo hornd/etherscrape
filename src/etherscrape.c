@@ -15,7 +15,7 @@
 #include "etherscrape.h"
 #include "ethertype.h"
 #include "util.h"
-#include "pretty_print.h"
+#include "printer.h"
 #include "interactive.h"
 
 /* Standard ethernet defines max packet length of 1518 octets (1500 octet payload, 12 octet CRC, 8 octet preamble+SFD).

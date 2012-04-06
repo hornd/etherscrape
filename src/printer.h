@@ -1,5 +1,5 @@
-#ifndef _PRETTY_PRINT_H
-#define _PRETTY_PRINT_H
+#ifndef _PRINTER_H
+#define _PRINTER_H
 
 #include "pack_list.h"
 #include "layer2.h"

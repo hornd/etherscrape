@@ -1,5 +1,5 @@
 #include "interactive.h"
-#include "pretty_print.h"
+#include "printer.h"
 
 extern void
 go_interactive()
