@@ -3,6 +3,11 @@
 
 #include <stdint.h>
 
+typedef struct 
+{
+    uint8_t addr[4];
+} ip_address;
+
 typedef struct
 {
     uint8_t  ipv4_version_header_length;
@@ -14,9 +19,8 @@ typedef struct
     uint8_t  ipv4_protocol;
     uint16_t ipv4_crc;
 
-    uint32_t ipv4_sourceaddr;
-    uint32_t ipv4_destaddr;
-    
+    ip_address ipv4_sourceaddr;
+    ip_address ipv4_destaddr;
 } ipv4_header;
 
 #define VERSION_START_BIT     0

@@ -31,7 +31,7 @@ display_grid()
     }
 }
 
-static void
+extern void
 dump_packet_data(struct pack_cap *p)
 {
     uint8_t i;
@@ -46,76 +46,31 @@ dump_packet_data(struct pack_cap *p)
 }
 
 extern void
-debug_dump(struct pack_cap *p)
-{
-    uint8_t *ptr = (uint8_t *)(p->packet);
-    uint8_t i;
-
-    uint8_t vers_len;
-    uint8_t code_cong;
-
-
-    printf("Packet Dump (debug): \n");
-
-    printf("**** Layer 2 ****\n");
-    printf("SA: ");
-    for(i=1; i<=6; i++)
-    {
-        printf("%02x ", *ptr++);
-    }
-    printf("\n");
-    
-    printf("DA: ");
-    for(; i<=12; i++)
-    {
-        printf("%02x ", *ptr++);
-    }
-    printf("\n");
-
-    printf("Type: ");
-    for(; i<=14; i++)
-    {
-        printf("%02x ", *ptr++);
-    }
-    printf("\n");
-
-    vers_len = *ptr++;
-    code_cong = *ptr++;
-    
-    printf("Version: ");
-    printf("%1x\n", vers_len >> 4);
-
-    printf("\n**** Layer 3 ****\n");
-    printf("Length: ");
-    printf("%1x\n", vers_len & 0xF);
-
-
-    dump_packet_data(p);
-}
-
-extern void
 print_out(struct pack_cap *pack)
 {
-
+    ethertype typ;
     layer2_header *eth_header;
-/*    uint8_t loc_ptr = 0; */
     char buffer[100];
 
     eth_header = (layer2_header *)(pack->packet);
-
+    typ = l2_get_ethertype(pack);
     printf("%-5d | %-8s |", pack->packet_id, "2ms"); 
 
-    /* Debug only... needs to be IP  */
+/* debug */
+    if (typ == 0x800)
+        l3_get_da(pack, buffer);
+    else
+        l2_get_da(pack, buffer);
 
-    l2_get_da(pack, buffer);
-    printf("%-18s  |", buffer);
+    printf(" %-24s  |", buffer);
 
-/*    memset(buffer, 0, loc_ptr); */
+    if (typ == 0x800)
+        l3_get_sa(pack, buffer);
+    else
+        l2_get_sa(pack, buffer);
 
-    l2_get_sa(pack, buffer);
-
-    printf("%-18s  | ", buffer);
-    printf("0x%-6x | ", l2_get_ethertype(pack));
+    printf(" %-24s  | ", buffer);
+    printf("0x%-6x | ", typ);
     printf("%-5d ", pack->packet_len);
 
     printf("\n");
@@ -128,7 +83,7 @@ print_header()
 {
     uint8_t i = LINE_LENGTH;
 
-    printf(get_string_format(), "ID", "Time Rx", "Source IP", "Dest IP", "Type", "Length");
+    printf(get_string_format(), "ID", "Time Rx", "Source", "Dest", "Type", "Length");
 
     while(i--) printf("-");
     printf("\n");
@@ -137,7 +92,7 @@ print_header()
 
 #define ID_FORMAT "%-5s"
 #define TIME_FORMAT "%-8s"
-#define SOURCE_FORMAT "%-18s"
+#define SOURCE_FORMAT "%-25s"
 #define DEST_FORMAT SOURCE_FORMAT
 #define TYPE_FORMAT "%-8s"
 #define LENGTH_FORMAT "%-5s"
