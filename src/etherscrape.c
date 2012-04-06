@@ -16,6 +16,7 @@
 #include "ethertype.h"
 #include "util.h"
 #include "pretty_print.h"
+#include "interactive.h"
 
 /* Standard ethernet defines max packet length of 1518 octets (1500 octet payload, 12 octet CRC, 8 octet preamble+SFD).
    Jumbo frames are not actually supported by IEEE, but are seen out in the wild. 
@@ -40,12 +41,6 @@ handle_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pack
     }    
 }
 
-static void
-dump_packets()
-{
-    display_grid();
-}
-
 void usage()
 {
 	printf("etherscrape [-c packets]\n");
@@ -60,12 +55,11 @@ void init(int argc, char* argv[])
 	{
 		if (strcmp("-c", argv[i]) == 0)
 		{
-			int atemp;
-/*			if(argv[i+1] == NULL || ((config.packets = atoi(argv[i+1])) == 0))
-            usage(); */
-			if(argv[i+1] == NULL) usage();
-			atemp = atoi(argv[i+1]);
-			printf("%s :  %d\n", argv[i+1], atemp);
+            if (argv[i+1] == NULL || ((config.packets = atoi(argv[i+1])) == 0) ||
+                !is_numeric(argv[i+1]))
+                usage();
+
+            config.packets = atoi(argv[i+1]);
 			i++;
 		}
 		else
@@ -119,7 +113,7 @@ int main(int argc, char* argv[])
         printf("An error occurred when capturing.\n");
     }
 
-    dump_packets();
+    go_interactive();
 
 	pcap_close(handle);
 

@@ -11,7 +11,17 @@
                                             ((val) & ~GET_BITS((val),(start),(end))))
 #define NUM_BITS(t)                     ((t##_END_BIT)-(t##_START_BIT)+1)
 
+#define ARRLEN(s) (sizeof(s) / sizeof(s[0]))
+
+#define TRUE 1
+#define FALSE 0
+
+typedef uint8_t bool;
+
 extern char*
 strethertype(uint16_t);
+
+extern bool 
+is_numeric(char *);
 
 #endif
