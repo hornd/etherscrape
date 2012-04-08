@@ -4,6 +4,8 @@
 #include "pack_list.h"
 #include "layer2.h"
 
+#define PACKETS_DISPLAYED_PER_PAGE  10
+
 extern void
 display_grid();
 
@@ -12,5 +14,8 @@ print_out(struct pack_cap *);
 
 extern void
 dump_packet_data(struct pack_cap *);
+
+extern uint32_t 
+get_current_display_start();
 
 #endif

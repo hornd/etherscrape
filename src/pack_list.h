@@ -13,6 +13,10 @@
                             (nd) != NULL;                      \
                             (nd) = (nd)->next)
 
+#define FOREACH_PL_UNTIL(nd, i, n) for((nd) = packets_captured.head,    \
+                                        (i)=0; (i)<(n) && (nd) != NULL; \
+                                        (nd) = (nd)->next, (i)++)
+
 struct pack_cap
 {
     const struct pcap_pkthdr *header;

@@ -18,9 +18,6 @@
 #include "printer.h"
 #include "interactive.h"
 
-/* Standard ethernet defines max packet length of 1518 octets (1500 octet payload, 12 octet CRC, 8 octet preamble+SFD).
-   Jumbo frames are not actually supported by IEEE, but are seen out in the wild. 
-   9000 is the decided maximum jumbo frame length */
 #define MAX_PACKET_LEN 9000
 
 struct

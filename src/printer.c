@@ -9,25 +9,35 @@
 #include "layer2.h"
 #include "layer3.h"
 
+struct d_config
+{
+    uint32_t display_start, display_end;
+};
+
+static struct d_config display_config = { 0, 10 };
+
 static void
 print_header();
 
 static char*
 get_string_format();
 
+extern uint32_t
+get_current_display_start() { return display_config.display_start; }
+
 extern void 
 display_grid()
 {
     struct pack_cap *hd;
-    
+    uint8_t i;
+
     printf("Captured %d packets\n", packets_captured.len);
 
     print_header(); 
 
-    FOREACH_PL_END(hd)
+    FOREACH_PL_UNTIL(hd, i, PACKETS_DISPLAYED_PER_PAGE) 
     {
         print_out(hd);
-/*      dump_packet_data(hd); */
     }
 }
 
