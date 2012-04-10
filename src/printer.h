@@ -3,11 +3,18 @@
 
 #include "pack_list.h"
 #include "layer2.h"
+#include "util.h"
 
 #define PACKETS_DISPLAYED_PER_PAGE  10
 
 extern void
 display_grid();
+
+extern bool
+grid_next();
+
+extern bool
+grid_prev();
 
 extern void
 print_out(struct pack_cap *);

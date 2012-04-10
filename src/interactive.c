@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "interactive.h"
 #include "printer.h"
@@ -27,6 +28,7 @@ typedef enum
 
 static shell_state handle_grid_input(char *);
 static shell_state handle_focused_input(char *);
+static void display_help();
 
 static void
 shell()
@@ -34,7 +36,7 @@ shell()
     char buf[BUF_MAX];
     shell_state state = GRID;
     
-    printf("\n\n> ");
+    printf("\neth> ");
     while(fgets(buf, BUF_MAX, stdin))
     {
         buf[strlen(buf)-1] = '\0';
@@ -51,19 +53,47 @@ shell()
     }
 }
 
+static void
+display_help()
+{
+
+}
+
 static shell_state 
 handle_grid_input(char *str)
 {
     if (is_numeric(str)) 
     {
-        
+        /* focused view */
+        return FOCUSED;
+    }
+    else if (!strcmp(str, "n") || !strcmp(str, "next"))
+    {
+        if (!grid_next())
+        {
+            printf("No more packets captured!\n");
+        }
+        return GRID;
+    }
+    else if (!strcmp(str, "p") || !strcmp(str, "prev"))
+    {
+        grid_prev();
+        return GRID;
+    }
+    else if (!strcmp(str, "h") || !strcmp(str, "help"))
+    {
+        display_help();
+        return GRID;
     }
     else if (!strcmp(str, "q") || !strcmp(str, "quit"))
     {
         exit(0);
     }
-
-    return GRID;
+    else
+    {
+        printf("Invalid command. Type 'h' for options\n");
+        return GRID;
+    }
 }
 
 static shell_state 

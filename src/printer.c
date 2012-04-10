@@ -14,7 +14,7 @@ struct d_config
     uint32_t display_start, display_end;
 };
 
-static struct d_config display_config = { 0, 10 };
+static struct d_config display_config = { 1, 10 };
 
 static void
 print_header();
@@ -25,19 +25,55 @@ get_string_format();
 extern uint32_t
 get_current_display_start() { return display_config.display_start; }
 
+extern bool
+grid_next()
+{
+    if (display_config.display_end >= packets_captured.len)
+        return FALSE;
+
+    display_config.display_start += PACKETS_DISPLAYED_PER_PAGE;
+    if (display_config.display_end + PACKETS_DISPLAYED_PER_PAGE > packets_captured.len)
+    {
+        display_config.display_end = packets_captured.len;
+    }
+    else
+    {
+        display_config.display_end += PACKETS_DISPLAYED_PER_PAGE;
+    }
+
+    display_grid();
+
+    return TRUE;
+}
+
+extern bool
+grid_prev()
+{
+/*    if (display_config.display_start == 0) 
+        return FALSE;
+
+    if (display_config.display_start + PACKETS_DISPLAYED_PER_PAGE < 
+
+    display_config.display_start = display_config.display_end + 1;
+    display_config.display_end = display_config.display+start + PACKETS_DISPLAYED_PER_PAGE - 1;
+*/
+
+    return TRUE;
+}
+
 extern void 
 display_grid()
 {
-    struct pack_cap *hd;
-    uint8_t i;
-
-    printf("Captured %d packets\n", packets_captured.len);
+    struct pack_cap *hd = find_node_by_id(display_config.display_start);
+    uint8_t i = 0;
 
     print_header(); 
 
-    FOREACH_PL_UNTIL(hd, i, PACKETS_DISPLAYED_PER_PAGE) 
+    while(i++ < PACKETS_DISPLAYED_PER_PAGE &&
+          hd != NULL)
     {
         print_out(hd);
+        hd = hd->next;
     }
 }
 
@@ -93,6 +129,7 @@ print_header()
 {
     uint8_t i = LINE_LENGTH;
 
+    printf("\n");
     printf(get_string_format(), "ID", "Time Rx", "Source", "Dest", "Type", "Length");
 
     while(i--) printf("-");
