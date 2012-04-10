@@ -14,7 +14,7 @@ l3_get_sa(struct pack_cap const *pack, char *buf)
     }
     else 
     {
-        strcpy(buf, "00.00.00.00");
+        sprintf(buf, "%04x:%04x:%04x:%04x:%04x:%04x", 0xffff, 0, 0x1234, 0xff00, 0x6655, 0x987a);
     }
 }
 
@@ -29,7 +29,7 @@ l3_get_da(struct pack_cap const *pack, char *buf)
     }
     else 
     {
-        strcpy(buf, "00.00.00.00");
+        sprintf(buf, "%04x:%04x:%04x:%04x:%04x:%04x", 0xffff, 0, 0x1234, 0xff00, 0x6655, 0x987a);
     }
 
 }

@@ -49,14 +49,20 @@ grid_next()
 extern bool
 grid_prev()
 {
-/*    if (display_config.display_start == 0) 
+    if (display_config.display_start == 1)
         return FALSE;
 
-    if (display_config.display_start + PACKETS_DISPLAYED_PER_PAGE < 
+    display_config.display_end -= PACKETS_DISPLAYED_PER_PAGE;
+    if (display_config.display_start < PACKETS_DISPLAYED_PER_PAGE)
+    {
+        display_config.display_start = 1;
+    }
+    else
+    {
+        display_config.display_start -= PACKETS_DISPLAYED_PER_PAGE;
+    }
 
-    display_config.display_start = display_config.display_end + 1;
-    display_config.display_end = display_config.display+start + PACKETS_DISPLAYED_PER_PAGE - 1;
-*/
+    display_grid();
 
     return TRUE;
 }
@@ -102,27 +108,31 @@ print_out(struct pack_cap *pack)
     typ = l2_get_ethertype(pack);
     printf("%-5d | %-8s |", pack->packet_id, "2ms"); 
 
-/* debug */
+/* debug 
     if (typ == 0x800)
         l3_get_da(pack, buffer);
     else
-        l2_get_da(pack, buffer);
+    l2_get_da(pack, buffer); */
+    
+    l3_get_da(pack, buffer);
 
-    printf(" %-24s  |", buffer);
+    printf(" %-32s  |", buffer);
 
-    if (typ == 0x800)
+/*    if (typ == 0x800)
         l3_get_sa(pack, buffer);
     else
-        l2_get_sa(pack, buffer);
+    l2_get_sa(pack, buffer); */
 
-    printf(" %-24s  | ", buffer);
+    l3_get_sa(pack, buffer);
+
+    printf(" %-32s  | ", buffer);
     printf("0x%-6x | ", typ);
     printf("%-5d ", pack->packet_len);
 
     printf("\n");
 }
 
-#define LINE_LENGTH 80
+#define LINE_LENGTH 109
 
 static void
 print_header()
@@ -139,7 +149,7 @@ print_header()
 
 #define ID_FORMAT "%-5s"
 #define TIME_FORMAT "%-8s"
-#define SOURCE_FORMAT "%-25s"
+#define SOURCE_FORMAT "%-33s"
 #define DEST_FORMAT SOURCE_FORMAT
 #define TYPE_FORMAT "%-8s"
 #define LENGTH_FORMAT "%-5s"
