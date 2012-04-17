@@ -9,7 +9,6 @@
 
 typedef uint16_t ethertype;
 
-
 typedef struct
 {
 	uint8_t   eth_dest_addr[HARDWARE_ADDRESS_LEN];

@@ -31,4 +31,7 @@ l3_get_sa(struct pack_cap const *, char *);
 extern void
 l3_get_da(struct pack_cap const *, char *);
 
+extern char *
+l3_get_payload_protocol(struct pack_cap const *);
+
 #endif

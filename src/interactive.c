@@ -151,8 +151,6 @@ handle_focused_input(char *str)
     }
 
     printf("Invalid command. Type 'h' for options\n");
-    return GRID;
-
     return FOCUSED;
 }
 

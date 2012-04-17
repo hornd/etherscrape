@@ -33,3 +33,22 @@ l3_get_da(struct pack_cap const *pack, char *buf)
     }
 
 }
+
+extern char*
+l3_get_payload_protocol(struct pack_cap const *pack)
+{
+    const uint8_t *ip_begin = (pack->packet) + L3_OFFSET;
+    switch(((ipv4_header *)ip_begin)->ipv4_protocol)
+    {
+    case 1:
+        return "ICMP";
+    case 2:
+        return "IGMP";
+    case 6:
+        return "TCP";
+    case 17:
+        return "UDP";
+      
+    }
+    return NULL;
+}

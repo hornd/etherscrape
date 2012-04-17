@@ -16,14 +16,13 @@ struct d_config
 
 static struct d_config display_config = { 1, 10 };
 
-static void
-print_header();
+static void print_header();
+static char* get_string_format();
 
-static char*
-get_string_format();
-
-extern uint32_t
-get_current_display_start() { return display_config.display_start; }
+extern uint32_t get_current_display_start() 
+{ 
+    return display_config.display_start; 
+}
 
 extern bool
 grid_next()
@@ -103,30 +102,22 @@ print_out(struct pack_cap *pack)
     ethertype typ;
     layer2_header *eth_header;
     char buffer[100];
+    char *temp_test;
 
     eth_header = (layer2_header *)(pack->packet);
     typ = l2_get_ethertype(pack);
     printf("%-5d | %-8s |", pack->packet_id, "2ms"); 
 
-/* debug 
-    if (typ == 0x800)
-        l3_get_da(pack, buffer);
-    else
-    l2_get_da(pack, buffer); */
-    
     l3_get_da(pack, buffer);
-
     printf(" %-32s  |", buffer);
-
-/*    if (typ == 0x800)
-        l3_get_sa(pack, buffer);
-    else
-    l2_get_sa(pack, buffer); */
-
     l3_get_sa(pack, buffer);
 
     printf(" %-32s  | ", buffer);
-    printf("0x%-6x | ", typ);
+    temp_test = l3_get_payload_protocol(pack);
+    if (temp_test) 
+        printf("%-6s | ", temp_test);
+    else
+        printf("0x%-6x | ", typ);
     printf("%-5d ", pack->packet_len);
 
     printf("\n");
