@@ -3,6 +3,7 @@
 #include <string.h>
 #include "interactive.h"
 #include "printer.h"
+#include "grid.h"
 #include "util.h"
 
 #define  BUF_MAX  128
@@ -32,6 +33,8 @@ static shell_state grid_disp_handle();
 static shell_state grid_help_handle();
 static shell_state exit_handle();
 
+static shell_state focused_raw_handle();
+
 static shell_state handle_grid_input(char *);
 static shell_state handle_focused_input(char *);
 static void shell();
@@ -46,9 +49,9 @@ grid_commands[NUM_GRID_COMMANDS] = { { "n", "next", "Next Page", grid_next_handl
 
 #define NUM_FOCUS_COMMANDS 3
 static struct cmds
-focus_commands[NUM_FOCUS_COMMANDS] = { {"r", "raw", "Raw hex output", NULL },
+focus_commands[NUM_FOCUS_COMMANDS] = { {"r", "raw", "Raw hex output", focused_raw_handle },
                                        {"q", "quit", "Quit", exit_handle },
-                                       {"b", "back", "Back to Grid", NULL } };
+                                       {"b", "back", "Back to Grid", grid_disp_handle } };
 
 extern void
 go_interactive()
@@ -114,6 +117,16 @@ static shell_state grid_help_handle()
 
 static shell_state exit_handle() { exit(0); }
 
+static shell_state focused_raw_handle() 
+{
+    if(!focused_raw_print())
+    {
+        printf("Unable to dump raw packet...\n");
+    }
+
+    return FOCUSED;
+}
+
 static shell_state
 handle_grid_input(char *str)
 {
@@ -121,7 +134,15 @@ handle_grid_input(char *str)
 
     if (is_numeric(str))
     {
-        return FOCUSED;
+        if (grid_focus(atoi(str)))
+        {
+            return FOCUSED;
+        }
+        else
+        {
+            printf("Invalid packet ID. Type 'h' for options\n");
+            return GRID;
+        }
     }
 
     for(i=0; i<NUM_GRID_COMMANDS; i++)
@@ -140,7 +161,7 @@ static shell_state
 handle_focused_input(char *str)
 {
     uint8_t i;
-    uint32_t val = atoi(str);
+/*    uint32_t val = atoi(str); */
 
     for(i=0; i<NUM_FOCUS_COMMANDS; i++)
     {

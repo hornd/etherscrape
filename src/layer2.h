@@ -41,4 +41,8 @@ l2_get_sa(struct pack_cap const *, char *);
 extern ethertype
 l2_get_ethertype(struct pack_cap const *);
 
+/* Print function for focused packet analysis */
+extern void
+l2_focus_print(struct pack_cap const *);
+
 #endif

@@ -16,6 +16,7 @@
 #include "ethertype.h"
 #include "util.h"
 #include "printer.h"
+#include "grid.h"
 #include "interactive.h"
 
 #define MAX_PACKET_LEN 9000

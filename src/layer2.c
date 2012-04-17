@@ -4,7 +4,7 @@
 #include <netinet/in.h>
 #include "layer2.h"
 
-extern void
+/*extern void
 print_l2(const uint8_t *packet)
 {
 	int i;
@@ -31,7 +31,27 @@ print_l2(const uint8_t *packet)
 		printf("%s%02x", i == 0 ? " " : ":", *ptr++);
 	}
 	printf("\nEther-Type: %04x\n", *ptr);  
+    }*/
+
+extern void
+l2_focus_print(struct pack_cap const *pack_cap)
+{
+    uint8_t i, *ptr = ((layer2_header *)pack_cap)->eth_dest_addr;
+   
+    printf("%-26s", "Destination Address: ");
+	for(i = 0; i<HARDWARE_ADDRESS_LEN; i++)
+	{
+		printf("%s%02x", i == 0 ? " " : ":", *ptr++);
+	}
+
+	printf("\n%-26s", "Source Address: ");
+	for(i = 0; i<HARDWARE_ADDRESS_LEN; i++)
+	{
+		printf("%s%02x", i == 0 ? " " : ":", *ptr++);
+	}
+	printf("\n%-26s %04x\n", "Ether-Type:", *ptr);  
 }
+
 
 extern void
 l2_get_sa(struct pack_cap const *pack_cap, char *buf)
