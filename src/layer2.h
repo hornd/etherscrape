@@ -45,4 +45,8 @@ l2_get_ethertype(struct pack_cap const *);
 extern void
 l2_focus_print(struct pack_cap const *);
 
+/* Parse outand return the ethernet FCS */
+extern uint32_t
+l2_get_fcs(struct pack_cap const *);
+
 #endif

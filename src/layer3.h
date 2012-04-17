@@ -17,12 +17,12 @@ typedef enum
 
 typedef struct 
 {
-    l3_protocols protocol;
     union 
     {
         ipv4_header ipv4;
         ipv6_header ipv6;
     } l3_type;
+    l3_protocols protocol;
 } layer3_header;
 
 extern void 
@@ -33,5 +33,8 @@ l3_get_da(struct pack_cap const *, char *);
 
 extern char *
 l3_get_payload_protocol(struct pack_cap const *);
+
+extern void
+l3_focus_print(struct pack_cap const *);
 
 #endif

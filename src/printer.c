@@ -8,8 +8,11 @@
 #include "layer3.h"
 
 static bool print_packet(uint32_t);
+static void print_header(struct pack_cap *);
+static char* get_divider();
 
 static uint32_t cur_packet;
+
 
 extern bool
 focused_raw_print()
@@ -22,7 +25,7 @@ focused_raw_print()
 
     p = find_node_by_id(cur_packet);
 
-    len = p->packet_len * 2;
+    len = p->packet_len;
     ptr = (uint8_t *)(p->packet);
 
     printf("\nRaw Packet Data: \n");
@@ -31,6 +34,8 @@ focused_raw_print()
         printf("%02x ", *ptr++);
         if (!(i%16)) printf("\n");
     } 
+    if((i-1)%16) printf("\n");
+    printf("\n");
     
     return TRUE;
 }
@@ -47,6 +52,8 @@ dump_packet_data(struct pack_cap *p)
         printf("%02x ", *ptr++);
         if (!(i%8)) printf("\n");
     } 
+    if (((i-1)%8)) printf("\n");
+
     printf("\n");
 }
 
@@ -65,6 +72,21 @@ print_packet(uint32_t id)
     if(!hd) return FALSE;
 
     printf("\n\n");
+    print_header(hd);
     l2_focus_print(hd);
     return TRUE;
+}
+
+static void print_header(struct pack_cap *p)
+{
+    printf("Captured Packet #%d\n", p->packet_id);
+    printf(get_divider());   
+    printf("%23s\n", l3_get_payload_protocol(p));
+    printf("%17d byte packet\n", p->packet_len);
+    printf(get_divider());
+}
+
+static char* get_divider()
+{
+    return "**********************************************\n";
 }

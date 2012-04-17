@@ -3,10 +3,10 @@
 
 #include <stdint.h>
 
-typedef struct 
+struct ipv4_address
 {
     uint8_t addr[4];
-} ip_address;
+};
 
 typedef struct
 {
@@ -19,8 +19,8 @@ typedef struct
     uint8_t  ipv4_protocol;
     uint16_t ipv4_crc;
 
-    ip_address ipv4_sourceaddr;
-    ip_address ipv4_destaddr;
+    struct ipv4_address ipv4_sourceaddr;
+    struct ipv4_address ipv4_destaddr;
 } ipv4_header;
 
 #define VERSION_START_BIT     0
