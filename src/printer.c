@@ -77,7 +77,8 @@ print_packet(uint32_t id)
     return TRUE;
 }
 
-static void print_header(struct pack_cap *p)
+static void 
+print_header(struct pack_cap *p)
 {
     printf("Captured Packet #%d\n", p->packet_id);
     printf(get_divider());   

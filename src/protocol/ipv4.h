@@ -32,4 +32,6 @@ typedef struct
 #define ECN_START_BIT         14
 #define ECN_END_BIT           15
 
+extern void test_compile(int a);
+
 #endif 

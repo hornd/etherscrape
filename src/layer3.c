@@ -41,6 +41,7 @@ l3_get_da(struct pack_cap const *pack, char *buf)
 extern void
 l3_focus_print(struct pack_cap const *pack)
 {
+    test_compile(3);
 }
 
 static char*
