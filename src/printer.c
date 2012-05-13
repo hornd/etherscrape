@@ -74,6 +74,7 @@ print_packet(uint32_t id)
     printf("\n\n");
     print_header(hd);
     l2_focus_print(hd);
+    l3_focus_print(hd);
     return TRUE;
 }
 

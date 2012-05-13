@@ -16,7 +16,16 @@
 #define TRUE 1
 #define FALSE 0
 
+#ifdef ETHERTYPE_IPV4
+#undef ETHERTYPE_IPV4
+#endif
+
 #define ETHERTYPE_IPV4    0x0800
+
+#ifdef ETHERTYPE_IPV6
+#undef ETHERTYPE_IPV6
+#endif
+
 #define ETHERTYPE_IPV6    0x86DD
 
 typedef uint8_t bool;

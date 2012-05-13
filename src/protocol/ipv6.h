@@ -1,6 +1,17 @@
 #ifndef _IPV_6_H
 #define _IPV_6_H
 
+#include <stdint.h>
+#include "../pack_list.h"
+
+#define L3_OFFSET 14
+
+/*enum ipv6_portion
+{
+    IPV6_DESTADDR,
+    IPV6_SOUCEADDR
+    };*/
+
 struct ipv6_address
 {
     uint8_t addr[16];
@@ -26,5 +37,15 @@ typedef struct
 #define TRAFFIC_CLASS_END_BIT     11
 #define FLOW_LABEL_START_BIT      12
 #define FLOW_LABEL_END_BIT        31
+
+extern void 
+ipv6_get_sa(struct pack_cap const *, char *);
+
+extern void 
+ipv6_get_da(struct pack_cap const *, char *);
+
+extern void 
+ipv6_print(struct pack_cap const *);
+
 
 #endif

@@ -2,6 +2,9 @@
 #define _IPV_4_H
 
 #include <stdint.h>
+#include "../pack_list.h"
+
+#define L3_OFFSET 14
 
 struct ipv4_address
 {
@@ -32,6 +35,13 @@ typedef struct
 #define ECN_START_BIT         14
 #define ECN_END_BIT           15
 
-extern void test_compile(int a);
+extern void 
+ipv4_get_sa(struct pack_cap const *, char *);
+
+extern void 
+ipv4_get_da(struct pack_cap const *, char *);
+
+extern void 
+ipv4_print(struct pack_cap const *);
 
 #endif 

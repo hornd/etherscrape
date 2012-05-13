@@ -85,9 +85,9 @@ print_out(struct pack_cap *pack)
     typ = l2_get_ethertype(pack);
     printf("%-5d | %-8s |", pack->packet_id, "2ms"); 
 
-    l3_get_da(pack, buffer);
-    printf(" %-32s  |", buffer);
     l3_get_sa(pack, buffer);
+    printf(" %-32s  |", buffer);
+    l3_get_da(pack, buffer);
 
     printf(" %-32s  | ", buffer);
     temp_test = l3_get_payload_protocol(pack);
