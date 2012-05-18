@@ -38,7 +38,15 @@ l3_get_da(struct pack_cap const *pack, char *buf)
 extern void
 l3_focus_print(struct pack_cap const *pack)
 {
-
+    switch (l2_get_ethertype(pack)) 
+    {
+    case ETHERTYPE_IPV4:
+        ipv4_print(pack);
+        break;
+    case ETHERTYPE_IPV6:
+        ipv6_print(pack);
+        break;
+    }
 }
 
 static char*

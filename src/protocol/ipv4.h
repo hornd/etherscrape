@@ -26,10 +26,10 @@ typedef struct
     struct ipv4_address ipv4_destaddr;
 } ipv4_header;
 
-#define VERSION_START_BIT     0
-#define VERSION_END_BIT       3
-#define HDRLENGTH_START_BIT   4
-#define HDRLENGTH_END_BIT     7
+#define HDRLENGTH_START_BIT   0
+#define HDRLENGTH_END_BIT     3
+#define VERSION_START_BIT     4
+#define VERSION_END_BIT       7
 #define DSCP_START_BIT        8
 #define DSCP_END_BIT          13
 #define ECN_START_BIT         14

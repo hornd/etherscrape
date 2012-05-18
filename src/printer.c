@@ -9,10 +9,8 @@
 
 static bool print_packet(uint32_t);
 static void print_header(struct pack_cap *);
-static char* get_divider();
 
 static uint32_t cur_packet;
-
 
 extern bool
 focused_raw_print()
@@ -88,7 +86,3 @@ print_header(struct pack_cap *p)
     printf(get_divider());
 }
 
-static char* get_divider()
-{
-    return "**********************************************\n";
-}

@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include <netinet/in.h>
 #include "layer2.h"
-
-#define L2_STR_INDENT "%-21s"
+#include "util.h"
 
 extern void
 l2_focus_print(struct pack_cap const *pack_cap)
@@ -13,11 +12,11 @@ l2_focus_print(struct pack_cap const *pack_cap)
 
     l2_get_da(pack_cap, buf);
 
-    printf(L2_STR_INDENT " %s", "Destination Address: ", buf);
+    printf(FOCUS_STRING_INDENT " %s", "Destination Address: ", buf);
     l2_get_sa(pack_cap, buf);
 
-    printf("\n" L2_STR_INDENT " %s", "Source Address: ", buf);
-    printf("\n" L2_STR_INDENT " 0x%04x\n", "Ether-Type: ", l2_get_ethertype(pack_cap));
+    printf("\n" FOCUS_STRING_INDENT " %s", "Source Address: ", buf);
+    printf("\n" FOCUS_STRING_INDENT " 0x%04x\n", "Ether-Type: ", l2_get_ethertype(pack_cap));
 }
 
 extern void

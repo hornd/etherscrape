@@ -31,8 +31,8 @@ typedef struct
     struct ipv6_address ipv6_destaddr;
 } ipv6_header;
 
-#define VERSION_START_BIT         0
-#define VERSION_END_BIT           3
+/*#define VERSION_START_BIT         0
+  #define VERSION_END_BIT           3*/
 #define TRAFFIC_CLASS_START_BIT   4
 #define TRAFFIC_CLASS_END_BIT     11
 #define FLOW_LABEL_START_BIT      12

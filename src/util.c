@@ -52,3 +52,8 @@ is_numeric(char *str)
     }
     return TRUE;
 }
+
+extern char* get_divider()
+{
+    return "**********************************************\n";
+}

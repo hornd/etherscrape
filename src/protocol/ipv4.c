@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include "ipv4.h"
+#include "../util.h"
+
+static uint8_t ipv4_get_version(const ipv4_header *);
+static uint8_t ipv4_get_headerlength(const ipv4_header *);
 
 extern void 
 ipv4_get_sa(struct pack_cap const *pack, char *buf)
@@ -20,5 +24,21 @@ ipv4_get_da(struct pack_cap const *pack, char *buf)
 extern void 
 ipv4_print(struct pack_cap const *pack)
 {
+    const ipv4_header *ip_begin = ((ipv4_header *)((pack->packet) + L3_OFFSET));
+    printf(get_divider());
+    printf("IP PDU\n");
+    printf(get_divider());
+    printf(FOCUS_STRING_INDENT " %d\n", "Version: ", ipv4_get_version(ip_begin));
+    printf(FOCUS_STRING_INDENT " %d\n", "Header Length: ", ipv4_get_headerlength(ip_begin));
+}
 
+
+static uint8_t ipv4_get_version(const ipv4_header *pack)
+{
+    return GET_BITS(pack->ipv4_version_header_length, VERSION_START_BIT, VERSION_END_BIT);
+}
+
+static uint8_t ipv4_get_headerlength(const ipv4_header *pack)
+{
+    return GET_BITS(pack->ipv4_version_header_length, HDRLENGTH_START_BIT, HDRLENGTH_END_BIT);
 }

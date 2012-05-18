@@ -28,6 +28,8 @@
 
 #define ETHERTYPE_IPV6    0x86DD
 
+#define FOCUS_STRING_INDENT  "%-21s"
+
 typedef uint8_t bool;
 
 extern char*
@@ -35,5 +37,8 @@ strethertype(uint16_t);
 
 extern bool 
 is_numeric(char *);
+
+extern char* 
+get_divider();
 
 #endif
