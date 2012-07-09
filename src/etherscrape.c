@@ -23,7 +23,7 @@
 
 struct
 {
-	uint32_t packets;
+    uint32_t packets;
 } config;
 
 
@@ -41,8 +41,8 @@ handle_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pack
 
 void usage()
 {
-	printf("etherscrape [-c packets]\n");
-	exit(1);
+    printf("etherscrape [-c packets]\n");
+    exit(1);
 }
 
 void init(int argc, char* argv[])
@@ -96,7 +96,8 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    if (pcap_datalink(handle) != DLT_EN10MB) 
+
+    if (pcap_datalink(handle) != DLT_EN10MB)
     {
         fprintf(stderr, "%s is not an Ethernet device.\n", device);
         exit(EXIT_FAILURE);
@@ -104,7 +105,9 @@ int main(int argc, char* argv[])
 
     printf("Capturing packets......\n");
 
+
     loop_return = pcap_loop(handle, config.packets, handle_packet, NULL);
+
   
     if (loop_return < 0)
     {
@@ -112,9 +115,7 @@ int main(int argc, char* argv[])
     }
 
     go_interactive();
-
     pcap_close(handle);
-
     return 0;
 }
 
