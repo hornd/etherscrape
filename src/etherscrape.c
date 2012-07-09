@@ -90,21 +90,21 @@ int main(int argc, char* argv[])
 	
     handle = pcap_open_live(device, MAX_PACKET_LEN, 1, 1000, errbuf);
 
-	if (handle == NULL)
-	{
-		fprintf(stderr, "Could not open device %s: %s\n", device, errbuf);
-		exit(EXIT_FAILURE);
-	}
+    if (handle == NULL)
+    {
+        fprintf(stderr, "Could not open device %s: %s\n", device, errbuf);
+        exit(EXIT_FAILURE);
+    }
 
-	if (pcap_datalink(handle) != DLT_EN10MB) 
-	{
-		fprintf(stderr, "%s is not an Ethernet device.\n", device);
-		exit(EXIT_FAILURE);
-	}
+    if (pcap_datalink(handle) != DLT_EN10MB) 
+    {
+        fprintf(stderr, "%s is not an Ethernet device.\n", device);
+        exit(EXIT_FAILURE);
+    }
 
     printf("Capturing packets......\n");
 
-	loop_return = pcap_loop(handle, config.packets, handle_packet, NULL);
+    loop_return = pcap_loop(handle, config.packets, handle_packet, NULL);
   
     if (loop_return < 0)
     {
@@ -113,9 +113,9 @@ int main(int argc, char* argv[])
 
     go_interactive();
 
-	pcap_close(handle);
+    pcap_close(handle);
 
-	return 0;
+    return 0;
 }
 
 
