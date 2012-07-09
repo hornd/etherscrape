@@ -47,26 +47,26 @@ void usage()
 
 void init(int argc, char* argv[])
 {
-	int i = 1;
-	config.packets = 10;
-	while(i < argc)
-	{
-		if (strcmp("-c", argv[i]) == 0)
-		{
+    int i = 1;
+    config.packets = 10;
+    while(i < argc)
+    {
+        if (strcmp("-c", argv[i]) == 0)
+        {
             if (argv[i+1] == NULL || ((config.packets = atoi(argv[i+1])) == 0) ||
                 !is_numeric(argv[i+1]))
                 usage();
 
             config.packets = atoi(argv[i+1]);
-			i++;
-		}
-		else
-		{
-			printf("Aborting.. %d\n", i);
-			usage();
-		}
-		i++;
-	}
+            i++;
+        }
+        else
+        {
+            printf("Aborting.. %d\n", i);
+            usage();
+        }
+        i++;
+    }
 
     packets_captured.head = NULL;
     packets_captured.len = 0;
@@ -81,14 +81,14 @@ int main(int argc, char* argv[])
 
     init(argc, argv);
 	
-	device = pcap_lookupdev(errbuf);
-	if (device == NULL)
-	{
-		fprintf(stderr, "Could not find default device: %s\n", errbuf);
-		exit(EXIT_FAILURE);
-	}
+    device = pcap_lookupdev(errbuf);
+    if (device == NULL)
+    {
+        fprintf(stderr, "Could not find default device: %s\n", errbuf);
+        exit(EXIT_FAILURE);
+    }
 	
-	handle = pcap_open_live(device, MAX_PACKET_LEN, 1, 1000, errbuf);
+    handle = pcap_open_live(device, MAX_PACKET_LEN, 1, 1000, errbuf);
 
 	if (handle == NULL)
 	{
