@@ -12,6 +12,8 @@ static void print_header(struct pack_cap *);
 
 static uint32_t cur_packet;
 
+extern struct captured packets_captured;
+
 extern bool
 focused_raw_print()
 {

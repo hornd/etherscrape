@@ -5,6 +5,8 @@
 #include "pack_list.h"
 #include "util.h"
 
+struct captured packets_captured;
+
 static void insert_node(struct pack_cap *);
 static struct pack_cap * find_leaf();
 

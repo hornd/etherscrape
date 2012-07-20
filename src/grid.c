@@ -12,6 +12,8 @@ struct d_config
 
 static struct d_config display_config = { 1, 10 };
 
+extern struct captured packets_captured;
+
 static void print_header();
 static char* get_string_format();
 

@@ -26,6 +26,7 @@ struct
     uint32_t packets;
 } config;
 
+extern struct captured packets_captured;
 
 static void
 handle_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet)

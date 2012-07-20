@@ -32,7 +32,7 @@ struct captured
 {
     struct pack_cap *head;
     uint32_t len;
-} packets_captured;
+}; /* packets_captured; */
 
 extern struct pack_cap *
 construct_node(const struct pcap_pkthdr *, 
