@@ -8,8 +8,8 @@
 extern void
 l2_focus_print(struct pack_cap const *pack_cap)
 {
-    char da_buffer[HARDWARE_ADDRESS_WITH_COLON_LEN];
-    char sa_buffer[HARDWARE_ADDRESS_WITH_COLON_LEN];
+    char da_buffer[HARDWARE_ADDRESS_BYTES + 1] = {0};
+    char sa_buffer[HARDWARE_ADDRESS_BYTES + 1] = {0};
 
     l2_get_da(pack_cap, da_buffer);
     l2_get_sa(pack_cap, sa_buffer);

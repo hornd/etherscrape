@@ -1,8 +1,8 @@
 #ifndef _LAYER_2_H
 #define _LAYER_2_H
 
-#define HARDWARE_ADDRESS_LEN 6
-#define HARDWARE_ADDRESS_WITH_COLON_LEN 17
+#define HARDWARE_ADDRESS_LEN 6 /* Length in halfwords */
+#define HARDWARE_ADDRESS_BYTES 17 /* For printing, includes colons */
 #define ETHERNET_FCS_LEN 4
 
 #include "pack_list.h"
