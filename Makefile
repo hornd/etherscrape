@@ -2,9 +2,8 @@ CC       = gcc
 APP      = etherscrape
 SRCDIR   = src
 OBJDIR   = obj
-DEBUG    = -g
 INCLUDES = -I./inc
-CFLAGS   = -Wall -pedantic -c $(DEBUG) $(INCLUDES)
+CFLAGS   = -Wall -pedantic -c $(INCLUDES)
 LDFLAGS  = -lpcap
 SRCS    := $(shell find $(SRCDIR) -name '*.c')
 SRCDIRS := $(shell find . -name '*.c' -exec dirname {} \; | uniq) #Gets all directories with .c files
@@ -13,6 +12,9 @@ OBJS    := $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
 .PHONY: all clean
 
 all: $(APP)
+
+debug: CFLAGS += -DDEBUG_MODE -g
+debug: all
 
 $(APP): buildrepo $(OBJS)
 	@mkdir -p `dirname $@`
