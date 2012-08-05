@@ -18,6 +18,6 @@ extern uint32_t
 get_current_display_start();
 
 extern void
-print_out(struct pack_cap *);
+print_out(const struct pack_cap *);
 
 #endif

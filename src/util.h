@@ -36,7 +36,7 @@ extern char*
 strethertype(uint16_t);
 
 extern bool 
-is_numeric(char *);
+is_numeric(const char *);
 
 extern char* 
 get_divider();

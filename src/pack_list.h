@@ -27,7 +27,6 @@ struct pack_cap
     const uint8_t *packet;
 };
 
-
 struct captured
 {
     struct pack_cap *head;

@@ -8,15 +8,16 @@
 extern void
 l2_focus_print(struct pack_cap const *pack_cap)
 {
-    char buf[100];
+    char da_buffer[HARDWARE_ADDRESS_WITH_COLON_LEN];
+    char sa_buffer[HARDWARE_ADDRESS_WITH_COLON_LEN];
 
-    l2_get_da(pack_cap, buf);
+    l2_get_da(pack_cap, da_buffer);
+    l2_get_sa(pack_cap, sa_buffer);
 
-    printf(FOCUS_STRING_INDENT " %s", "Destination Address: ", buf);
-    l2_get_sa(pack_cap, buf);
-
-    printf("\n" FOCUS_STRING_INDENT " %s", "Source Address: ", buf);
-    printf("\n" FOCUS_STRING_INDENT " 0x%04x\n", "Ether-Type: ", l2_get_ethertype(pack_cap));
+    printf(FOCUS_STRING_INDENT " %s", "Destination Address: ", da_buffer);
+    printf("\n" FOCUS_STRING_INDENT " %s", "Source Address: ", sa_buffer);
+    printf("\n" FOCUS_STRING_INDENT " 0x%04x", "Ether-Type: ", l2_get_ethertype(pack_cap));
+    printf("\n" FOCUS_STRING_INDENT " 0x%08x\n", "FCS: ", l2_get_fcs(pack_cap));
 }
 
 extern void
@@ -54,5 +55,6 @@ l2_get_ethertype(struct pack_cap const *pack_cap)
 extern uint32_t
 l2_get_fcs(struct pack_cap const *pack_cap)
 {
-    return 0x12345678;
+    const uint8_t *ptr = pack_cap->packet + pack_cap->packet_len - ETHERNET_FCS_LEN;
+    return ntohl(*((uint32_t *)ptr));
 }

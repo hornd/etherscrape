@@ -14,7 +14,6 @@ typedef enum
     FOCUSED
 } shell_state;
 
-
 typedef shell_state (*disp_function)(void);
 
 struct cmds
@@ -35,12 +34,14 @@ static shell_state exit_handle();
 
 static shell_state focused_raw_handle();
 
-static shell_state handle_grid_input(char *);
+static shell_state handle_grid_input_numeric(const char *);
+static shell_state handle_grid_input_non_numeric(const char *);
+static shell_state handle_grid_input(const char *);
 static shell_state handle_focused_input(char *);
 static void shell();
 
 #define NUM_GRID_COMMANDS 5
-static struct cmds 
+static const struct cmds 
 grid_commands[NUM_GRID_COMMANDS] = { { "n", "next", "Next Page", grid_next_handle },
                                      { "p", "prev", "Previous Page", grid_prev_handle },
                                      { "d", "display", "Redisplay Page", grid_disp_handle },
@@ -48,7 +49,7 @@ grid_commands[NUM_GRID_COMMANDS] = { { "n", "next", "Next Page", grid_next_handl
                                      { "q", "quit", "Quit ", exit_handle } };
 
 #define NUM_FOCUS_COMMANDS 3
-static struct cmds
+static const struct cmds
 focus_commands[NUM_FOCUS_COMMANDS] = { {"r", "raw", "Raw hex output", focused_raw_handle },
                                        {"q", "quit", "Quit", exit_handle },
                                        {"b", "back", "Back to Grid", grid_disp_handle } };
@@ -83,8 +84,8 @@ shell()
     }
 }
 
-
-static shell_state grid_next_handle() 
+static shell_state 
+grid_next_handle() 
 { 
     if (!grid_next())
     {
@@ -93,19 +94,22 @@ static shell_state grid_next_handle()
     return GRID;
 }
 
-static shell_state grid_prev_handle() 
+static shell_state 
+grid_prev_handle() 
 { 
     grid_prev();
     return GRID;
 }
 
-static shell_state grid_disp_handle() 
+static shell_state 
+grid_disp_handle() 
 {
     display_grid();
     return GRID;
 }
 
-static shell_state grid_help_handle() 
+static shell_state 
+grid_help_handle() 
 {
     uint8_t i;
     for(i=0; i<NUM_GRID_COMMANDS; i++)
@@ -115,9 +119,14 @@ static shell_state grid_help_handle()
     return GRID;
 }
 
-static shell_state exit_handle() { exit(0); }
+static shell_state 
+exit_handle() 
+{ 
+    exit(0); 
+}
 
-static shell_state focused_raw_handle() 
+static shell_state 
+focused_raw_handle() 
 {
     if(!focused_raw_print())
     {
@@ -128,23 +137,23 @@ static shell_state focused_raw_handle()
 }
 
 static shell_state
-handle_grid_input(char *str)
+handle_grid_input_numeric(const char *str)
+{
+    if (grid_focus(atoi(str)))
+    {
+        return FOCUSED;
+    }
+    else
+    {
+        printf("Invalid packet ID. Type 'h' for options\n");
+        return GRID;
+    }
+}
+
+static shell_state
+handle_grid_input_non_numeric(const char *str)
 {
     uint8_t i;
-
-    if (is_numeric(str))
-    {
-        if (grid_focus(atoi(str)))
-        {
-            return FOCUSED;
-        }
-        else
-        {
-            printf("Invalid packet ID. Type 'h' for options\n");
-            return GRID;
-        }
-    }
-
     for(i=0; i<NUM_GRID_COMMANDS; i++)
     {
         if (!strcmp(str, grid_commands[i].cmd) || !strcmp(str, grid_commands[i].verbose_cmd))
@@ -155,6 +164,17 @@ handle_grid_input(char *str)
 
     printf("Invalid command. Type 'h' for options\n");
     return GRID;
+}
+
+static shell_state
+handle_grid_input(const char *str)
+{
+    if (is_numeric(str))
+    {
+        return handle_grid_input_numeric(str);
+    }
+    
+    return handle_grid_input_non_numeric(str);
 }
 
 static shell_state 

@@ -76,7 +76,7 @@ display_grid()
 }
 
 extern void
-print_out(struct pack_cap *pack)
+print_out(const struct pack_cap *pack)
 {
     ethertype typ;
     layer2_header *eth_header;

@@ -1,8 +1,9 @@
 #ifndef _LAYER_2_H
 #define _LAYER_2_H
 
-/* Size of hardware address in octets */
 #define HARDWARE_ADDRESS_LEN 6
+#define HARDWARE_ADDRESS_WITH_COLON_LEN 17
+#define ETHERNET_FCS_LEN 4
 
 #include "pack_list.h"
 #include "util.h"

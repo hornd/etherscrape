@@ -28,7 +28,7 @@ strethertype(uint16_t type)
 }
 
 extern bool
-is_numeric(char *str)
+is_numeric(const char *str)
 {
     while(*str) 
     {
