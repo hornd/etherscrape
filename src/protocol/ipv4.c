@@ -1,9 +1,14 @@
 #include <stdio.h>
+#include <netinet/in.h>
 #include "ipv4.h"
+#include "../etherscrape.h"
 #include "../util.h"
 
 static uint8_t ipv4_get_version(const ipv4_header *);
 static uint8_t ipv4_get_headerlength(const ipv4_header *);
+static uint8_t ipv4_get_dscp(const ipv4_header *);
+static uint8_t ipv4_get_ecn(const ipv4_header *);
+static uint16_t ipv4_get_total_length(const ipv4_header *);
 
 extern void 
 ipv4_get_sa(struct pack_cap const *pack, char *buf)
@@ -30,8 +35,28 @@ ipv4_print(struct pack_cap const *pack)
     printf(get_divider());
     printf(FOCUS_STRING_INDENT " %d\n", "Version: ", ipv4_get_version(ip_begin));
     printf(FOCUS_STRING_INDENT " %d\n", "Header Length: ", ipv4_get_headerlength(ip_begin));
+    printf(FOCUS_STRING_INDENT " %d\n", "DSCP: ", ipv4_get_dscp(ip_begin));
+    printf(FOCUS_STRING_INDENT " %d\n", "ECN: ", ipv4_get_ecn(ip_begin));
+    printf(FOCUS_STRING_INDENT " %d\n", "Total Length: ", ipv4_get_total_length(ip_begin));
 }
 
+static uint16_t ipv4_get_total_length(const ipv4_header *pack)
+{
+    DEBUG_PRINT(("Reading length: 0x%04x\n", pack->ipv4_total_length), DEBUG_LOW);
+    return ntohs(pack->ipv4_total_length);
+}
+
+static uint8_t ipv4_get_ecn(const ipv4_header *pack)
+{
+    DEBUG_PRINT(("Pulling bits %d - %d out of 0x%02x\n", ECN_START_BIT, ECN_END_BIT, pack->ipv4_dscp_congestion), DEBUG_LOW);
+    return GET_BITS(pack->ipv4_dscp_congestion, ECN_START_BIT, ECN_END_BIT);
+}
+
+static uint8_t ipv4_get_dscp(const ipv4_header *pack)
+{
+    DEBUG_PRINT(("Pulling bits %d - %d out of 0x%02x\n", DSCP_START_BIT, DSCP_END_BIT, pack->ipv4_dscp_congestion), DEBUG_LOW);
+    return GET_BITS(pack->ipv4_dscp_congestion, DSCP_START_BIT, DSCP_END_BIT);
+}
 
 static uint8_t ipv4_get_version(const ipv4_header *pack)
 {
