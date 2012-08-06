@@ -15,6 +15,78 @@ typedef enum
     NUM_PROTOCOLS
 } l3_protocols;
 
+/* TODO: Finish this list... */
+typedef enum
+{
+    HOPOPT,
+    ICMP,
+    IGMP,
+    GGP,
+/*    IPv4, */
+    ST,
+    TCP,
+    CBT,
+    EGP,
+    IGP,
+    BBN_RCC_MON,
+    NVP_II,
+    PUP,
+    ARGUS,
+    EMCON,
+    EXNET,
+    CHAOS,
+    UDP,
+    MUX,
+    DCN_MEAS,
+    HMP,
+    PRM,
+    XNS_IDP,
+    TRUNK_1,
+    TRUNK_2,
+    LEAF_1,
+    LEAF_2,
+    RDP,
+    IRTP,
+    ISO_TP4,
+    NETBLT,
+    MFE_NSP,
+    MERIT_INP,
+    DCCP,
+    THREEPC,
+    IDPR,
+    XTP,
+    DDP,
+    IDPR_CMTP,
+    TPPLUSPLUS,
+    IL,
+/*    IPv6, */
+    SDRP,
+    IPv6_ROUTE,
+    IPv6_FRAG,
+    IDRP,
+    RSVP,
+    GRE,
+    MHRP,
+    BNA,
+    ESP,
+    AH,
+    I_NLSP,
+    SWIPE,
+    NARP,
+    MOBILE,
+    TLSP,
+    SKIP,
+    ICv6_ICMP,
+    IPv6_NONEXT,
+    IPv6_OPTS,
+    ANY_HOST,
+    CFTP,
+    ANY_LOCAL,
+    SAT_EXPAK,
+    KRYPTOLAN,
+    RVD
+} l3_header_protocols;
+
 typedef struct 
 {
     union 

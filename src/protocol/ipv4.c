@@ -9,6 +9,13 @@ static uint8_t ipv4_get_headerlength(const ipv4_header *);
 static uint8_t ipv4_get_dscp(const ipv4_header *);
 static uint8_t ipv4_get_ecn(const ipv4_header *);
 static uint16_t ipv4_get_total_length(const ipv4_header *);
+static uint16_t ipv4_get_identification(const ipv4_header *);
+static uint8_t  ipv4_get_flags(const ipv4_header *);
+static char* ipv4_flags_to_str(const uint8_t);
+static uint16_t ipv4_get_fragment(const ipv4_header *);
+static uint8_t ipv4_get_ttl(const ipv4_header *);
+static uint8_t ipv4_get_protocol(const ipv4_header *);
+static uint16_t ipv4_get_hdr_checksum(const ipv4_header *);
 
 extern void 
 ipv4_get_sa(struct pack_cap const *pack, char *buf)
@@ -38,6 +45,61 @@ ipv4_print(struct pack_cap const *pack)
     printf(FOCUS_STRING_INDENT " %d\n", "DSCP: ", ipv4_get_dscp(ip_begin));
     printf(FOCUS_STRING_INDENT " %d\n", "ECN: ", ipv4_get_ecn(ip_begin));
     printf(FOCUS_STRING_INDENT " %d\n", "Total Length: ", ipv4_get_total_length(ip_begin));
+    printf(FOCUS_STRING_INDENT " %d\n", "ID: ", ipv4_get_identification(ip_begin));
+    printf(FOCUS_STRING_INDENT " %s\n", "Flags: ", ipv4_flags_to_str(ipv4_get_flags(ip_begin)));
+    printf(FOCUS_STRING_INDENT " %d\n", "Fragment: ", ipv4_get_fragment(ip_begin));
+    printf(FOCUS_STRING_INDENT " %d\n", "TTL: ", ipv4_get_ttl(ip_begin));
+    printf(FOCUS_STRING_INDENT " %d\n", "Protocol: ", ipv4_get_protocol(ip_begin));
+    printf(FOCUS_STRING_INDENT " %d\n", "Header CRC: ", ipv4_get_hdr_checksum(ip_begin));
+}
+
+static uint8_t ipv4_get_ttl(const ipv4_header *pack)
+{
+    return pack->ipv4_time_to_live;
+}
+
+static uint8_t ipv4_get_protocol(const ipv4_header *pack)
+{
+    return pack->ipv4_protocol;
+}
+
+static uint16_t ipv4_get_hdr_checksum(const ipv4_header *pack)
+{
+    return ntohs(pack->ipv4_crc);
+}
+
+static uint16_t ipv4_get_fragment(const ipv4_header *pack)
+{
+    return GET_BITS(pack->ipv4_flags_fragment, FRAGMENT_START_BIT, FRAGMENT_END_BIT);
+}  
+
+static uint8_t ipv4_get_flags(const ipv4_header *pack)
+{
+    return GET_BITS(pack->ipv4_flags_fragment, FLAGS_START_BIT, FLAGS_END_BIT);
+}
+
+static char* ipv4_flags_to_str(const uint8_t flags)
+{
+    switch (flags) 
+    {
+    case 0:
+        return "None";
+    case 1:
+        return "Don't Fragment";
+    case 2:
+        return "More Fragments";
+    case 3:
+        return "Don't Fragment | More Fragments";
+    }
+
+    DEBUG_PRINT(("ipv4_flags_to_str received a value of %d which is not expected", flags), DEBUG_HIGH);
+    return "None";
+}
+
+static uint16_t ipv4_get_identification(const ipv4_header *pack)
+{
+    DEBUG_PRINT(("Reading ID: 0x%04x\n", pack->ipv4_id), DEBUG_LOW);
+    return ntohs(pack->ipv4_id);
 }
 
 static uint16_t ipv4_get_total_length(const ipv4_header *pack)

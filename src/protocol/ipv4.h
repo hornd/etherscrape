@@ -11,6 +11,13 @@ struct ipv4_address
     uint8_t addr[4];
 };
 
+typedef enum
+{
+    RESERVED = 0,
+    DONT_FRAGMENT = 0x1,
+    MORE_FRAGMENTS = 0x2
+} ipv4_flags;
+
 typedef struct
 {
     uint8_t  ipv4_version_header_length;
