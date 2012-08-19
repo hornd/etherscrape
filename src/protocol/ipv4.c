@@ -37,6 +37,11 @@ extern void
 ipv4_print(struct pack_cap const *pack)
 {
     const ipv4_header *ip_begin = ((ipv4_header *)((pack->packet) + L3_OFFSET));
+    char ip_da_buffer[20], ip_sa_buffer[20];
+
+    ipv4_get_da(pack, ip_da_buffer);
+    ipv4_get_sa(pack, ip_sa_buffer);
+
     printf(get_divider());
     printf("IP PDU\n");
     printf(get_divider());
@@ -51,6 +56,14 @@ ipv4_print(struct pack_cap const *pack)
     printf(FOCUS_STRING_INDENT " %d\n", "TTL: ", ipv4_get_ttl(ip_begin));
     printf(FOCUS_STRING_INDENT " %d\n", "Protocol: ", ipv4_get_protocol(ip_begin));
     printf(FOCUS_STRING_INDENT " %d\n", "Header CRC: ", ipv4_get_hdr_checksum(ip_begin));
+
+    printf(FOCUS_STRING_INDENT " %s\n", "Source IP:", ip_sa_buffer);
+    printf(FOCUS_STRING_INDENT " %s\n", "Dest IP:", ip_da_buffer);
+
+    if (ipv4_get_headerlength(ip_begin) > 5) {
+        printf("TODO: Implement IPv4 Options\n");
+    }
+
 }
 
 static uint8_t ipv4_get_ttl(const ipv4_header *pack)
