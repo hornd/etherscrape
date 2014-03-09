@@ -33,6 +33,7 @@ static shell_state grid_help_handle();
 static shell_state exit_handle();
 
 static shell_state focused_raw_handle();
+static shell_state focused_help_handle();
 
 static shell_state handle_grid_input_numeric(const char *);
 static shell_state handle_grid_input_non_numeric(const char *);
@@ -48,10 +49,11 @@ grid_commands[NUM_GRID_COMMANDS] = { { "n", "next", "Next Page", grid_next_handl
                                      { "h", "help", "Help", grid_help_handle },
                                      { "q", "quit", "Quit ", exit_handle } };
 
-#define NUM_FOCUS_COMMANDS 3
+#define NUM_FOCUS_COMMANDS 4
 static const struct cmds
 focus_commands[NUM_FOCUS_COMMANDS] = { {"r", "raw", "Raw hex output", focused_raw_handle },
                                        {"q", "quit", "Quit", exit_handle },
+                                       {"h", "help", "Help", focused_help_handle },
                                        {"b", "back", "Back to Grid", grid_disp_handle } };
 
 extern void
@@ -108,14 +110,21 @@ grid_disp_handle()
     return GRID;
 }
 
+
+static void help_handle(const struct cmds *all, const uint8_t len) 
+{
+    uint8_t i;
+    for(i=0; i<len; i++) 
+    {
+        printf("%s: %s\n", all[i].cmd, all[i].help);
+    }
+}
+
+
 static shell_state 
 grid_help_handle() 
 {
-    uint8_t i;
-    for(i=0; i<NUM_GRID_COMMANDS; i++)
-    {
-        printf("%s: %s\n", grid_commands[i].cmd, grid_commands[i].help);
-    }    
+    help_handle(grid_commands, NUM_GRID_COMMANDS);
     return GRID;
 }
 
@@ -123,6 +132,13 @@ static shell_state
 exit_handle() 
 { 
     exit(0); 
+}
+
+static shell_state
+focused_help_handle()
+{
+    help_handle(focus_commands, NUM_FOCUS_COMMANDS);
+    return FOCUSED;
 }
 
 static shell_state 
