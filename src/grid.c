@@ -88,10 +88,10 @@ print_out(const struct pack_cap *pack)
     printf("%-5d | %-8s |", pack->packet_id, "2ms"); 
 
     l3_get_sa(pack, buffer);
-    printf(" %-32s  |", buffer);
+    printf(" %-36s  |", buffer);
     l3_get_da(pack, buffer);
 
-    printf(" %-32s  | ", buffer);
+    printf(" %-36s  | ", buffer);
     temp_test = l3_get_payload_protocol(pack);
     if (temp_test) 
         printf("%-6s | ", temp_test);
@@ -106,7 +106,7 @@ print_out(const struct pack_cap *pack)
 extern uint32_t
 get_current_display_start() { return display_config.display_start; }
 
-#define LINE_LENGTH 109
+#define LINE_LENGTH 116
 
 static void
 print_header()
@@ -123,9 +123,9 @@ print_header()
 
 #define ID_FORMAT "%-5s"
 #define TIME_FORMAT "%-8s"
-#define SOURCE_FORMAT "%-33s"
+#define SOURCE_FORMAT "%-37s"
 #define DEST_FORMAT SOURCE_FORMAT
-#define TYPE_FORMAT "%-8s"
+#define TYPE_FORMAT "%-6s"
 #define LENGTH_FORMAT "%-5s"
 
 static char*
